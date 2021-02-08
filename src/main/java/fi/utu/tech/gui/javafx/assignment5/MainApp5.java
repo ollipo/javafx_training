@@ -1,13 +1,20 @@
 package fi.utu.tech.gui.javafx.assignment5;
 
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.IntegerExpression;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 public class MainApp5 extends Application {
@@ -29,6 +36,13 @@ public class MainApp5 extends Application {
         var passwordField = new PasswordField();
         // Label for showing the password quality
         var resultLabel = new Label();
+        // Saving boolean for the password length
+
+        var badPassword = passwordField.textProperty().length().lessThan(13);
+        // Display for the text
+        resultLabel.textProperty().bind(Bindings.when(badPassword).then("Poor").otherwise("Good"));
+        // Display for the color
+        resultLabel.textFillProperty().bind(Bindings.when(badPassword).then(Color.RED).otherwise(Color.GREEN));
 
         // Add components to layout
         grid.add(passwordLabel, 0, 0);

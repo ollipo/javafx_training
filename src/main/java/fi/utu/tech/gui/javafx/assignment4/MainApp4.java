@@ -1,6 +1,7 @@
 package fi.utu.tech.gui.javafx.assignment4;
 
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -29,6 +30,9 @@ public class MainApp4 extends Application {
         var passwordField = new PasswordField();
         // Label for showing the length
         var resultLabel = new Label();
+
+        //Binding passwordField to the resultLabel with length
+        resultLabel.textProperty().bind(Bindings.length(passwordField.textProperty()).asString());
 
         // Add components to layout
         grid.add(passwordLabel, 0, 0);

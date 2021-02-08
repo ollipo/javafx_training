@@ -1,6 +1,9 @@
 package fi.utu.tech.gui.javafx.assignment6;
 
 import javafx.application.Application;
+import javafx.beans.binding.Binding;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -8,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.util.converter.NumberStringConverter;
 
 public class MainApp6 extends Application {
 
@@ -22,6 +26,25 @@ public class MainApp6 extends Application {
         TextField yeastPercentageField = new TextField();
         Label yeastAmountLabel = new Label();
         Label doughTotalAmountLabel = new Label();
+
+        //Setting waterAmounProperty to double
+        var waterAmountP = new SimpleDoubleProperty();
+        //Setting yeastAmounProperty to double
+        var yeastAmountP = new SimpleDoubleProperty();
+        //Setting number to string converter
+        NumberStringConverter converter = new NumberStringConverter();
+
+        //Binding water percentage text property to water amount number property with converter
+        waterPercentageField.textProperty().bindBidirectional(waterAmountP, converter);
+        //Binding water amount label with water amount number divided by 100.0 in string
+        waterAmountLabel.textProperty().bind((waterAmountP.divide(100.0)).asString());
+
+
+        //Binding yeast percentage text property to yeast amount number property with converter
+       yeastPercentageField.textProperty().bindBidirectional(yeastAmountP, converter);
+        //Binding yeast amount label with yeast amount number divided by 100.0 in string
+        yeastAmountLabel.textProperty().bind((yeastAmountP.divide(100.0)).asString());
+
 
         // Just adding stuff to grid. Nothing of interest here
         GridPane grid = new GridPane();

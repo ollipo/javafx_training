@@ -30,6 +30,9 @@ public class MainApp3 extends Application {
         // Label for your use
         var resultLabel = new Label();
 
+        //Binding passwordField to the resultLabel
+        resultLabel.textProperty().bind(passwordField.textProperty());
+
         // Add components to layout
         grid.add(passwordLabel, 0, 0);
         grid.add(passwordField, 1, 0);

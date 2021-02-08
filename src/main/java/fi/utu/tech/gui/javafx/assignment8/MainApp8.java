@@ -1,6 +1,7 @@
 package fi.utu.tech.gui.javafx.assignment8;
 
 import javafx.application.Application;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -8,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.util.converter.NumberStringConverter;
 
 public class MainApp8 extends Application {
 
@@ -22,6 +24,39 @@ public class MainApp8 extends Application {
         TextField yeastPercentageField = new TextField();
         Label yeastAmountLabel = new Label();
         Label doughTotalAmountLabel = new Label();
+
+        //Setting waterPercentageProperty to double
+        var waterPercentageP = new SimpleDoubleProperty();
+        //Setting yeastPercentageProperty to double
+        var yeastPercentageP = new SimpleDoubleProperty();
+        //Setting yeastAmountProperty to double
+        var yeastAmountP = new SimpleDoubleProperty();
+        //Setting waterAmountP to double
+        var waterAmountP = new SimpleDoubleProperty();
+        //Setting flourAmountProperty to double
+        var flourAmountP = new SimpleDoubleProperty();
+        //Setting number to string converter
+        NumberStringConverter converter = new NumberStringConverter();
+
+        //Binding water percentage text property to water amount number property with converter
+        waterPercentageField.textProperty().bindBidirectional(waterPercentageP, converter);
+        //Binding yeast percentage text property to yeast amount number property with converter
+        yeastPercentageField.textProperty().bindBidirectional(yeastPercentageP, converter);
+        //Binding flour amount text property to flour amount number property with converter
+        flourAmountField.textProperty().bindBidirectional(flourAmountP, converter);
+
+        //Binding water amount property with water percentage number multiplied by flour amount and divided by 100.0
+        waterAmountP.bind(flourAmountP.multiply(waterPercentageP.divide(100.0)));
+        //Binding yeast amount property with yeast percentage number multiplied by flour amount and divided by 100.0
+        yeastAmountP.bind(flourAmountP.multiply(yeastPercentageP.divide(100.0)));
+
+        //Binding water amount label with water amount property in string
+        waterAmountLabel.textProperty().bind(waterAmountP.asString());
+        //Binding yeast amount label with yeast amount property in string
+        yeastAmountLabel.textProperty().bind(yeastAmountP.asString());
+
+        //Binding dough total amount label with sum of water amount, yeast amount and flour amount in string
+        doughTotalAmountLabel.textProperty().bind(waterAmountP.add(yeastAmountP).add(flourAmountP).asString());
 
         // Just adding stuff to grid. Nothing of interest here
         GridPane grid = new GridPane();
